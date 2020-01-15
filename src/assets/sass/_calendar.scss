@@ -1,0 +1,459 @@
+.calendar {
+  border-radius: 4px;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .events-list {
+    margin: auto;
+    display: inline-block;
+    flex-direction: column;
+    border-collapse: collapse;
+    table-layout: fixed;
+
+    .title {
+      text-align: center;
+      text-decoration: underline $red;
+    }
+
+    .year {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &-number {
+        font-size: 25px;
+        padding: 0 10px;
+        font-weight: 700;
+        position: relative;
+        z-index: -1;
+      }
+
+      .button {
+        width: 100px;
+        font-size: 30px;
+        background-color: $red;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        border-radius: 3px;
+      }
+    }
+
+    table {
+      border-spacing: 0 4px;
+
+      tr {
+        padding: 12px;
+        overflow: hidden;
+        width: 100px;
+        height: 50px;
+
+        th {
+          font-size: 14px;
+        }
+
+        &.warning {
+          position: relative;
+          z-index: 1;
+        }
+
+        &.passed {
+          opacity: 0.4;
+          position: relative;
+        }
+
+        td {
+          background: $light-grey;
+          height: 100%;
+          padding: 10px 20px;
+          font-size: 13px;
+          border: 0;
+          z-index: 1;
+          position: relative;
+
+          h2 {
+            margin: 0;
+          }
+
+          &.eye {
+            font-size: 30px;
+            cursor: pointer;
+          }
+
+          &.info {
+            transform-style: preserve-3d;
+            perspective: 100vh;
+            transition: 0.6s;
+            padding-right: 20px;
+            padding-left: 20px;
+            position: relative;
+            width: 100%;
+
+            &.rotate {
+              transform: rotateX(180deg);
+              z-index: 2;
+
+              .info-back {
+                box-shadow: 0 0 5px 1px $faint-black;
+              }
+            }
+
+            .box {
+              backface-visibility: hidden;
+              position: absolute;
+              top: 50%;
+              transform: translateY(-50%);
+              left: 0;
+              padding: 10px 20px;
+              min-height: calc(100% - 20px);
+              width: calc(100% - 40px);
+            }
+
+            .info-back {
+              background-color: $light-grey;
+              transform: rotateX(-180deg) translateY(50%);
+
+              p {
+                margin: 0;
+              }
+            }
+
+            .address {
+              color: $dark-grey;
+            }
+          }
+
+          &.date {
+            color: #fff;
+            text-align: center;
+            position: relative;
+
+            .day {
+              font-size: 30px;
+              font-weight: bold;
+            }
+          }
+
+          &:first-child {
+            border-bottom-left-radius: 5px;
+            border-top-left-radius: 5px;
+          }
+
+          &:last-child {
+            border-bottom-right-radius: 5px;
+            border-top-right-radius: 5px;
+          }
+        }
+      }
+    }
+  }
+
+  .calendar-card {
+    box-shadow: 0 0 5px 1px $light-grey;
+
+    .date {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .month {
+        margin-top: 0;
+        width: 100%;
+        color: #fff;
+        text-align: center;
+        padding: 5px 0;
+        font-size: 2.5em;
+        font-weight: bold;
+      }
+
+      .day {
+        font-size: 7em;
+        font-weight: bold;
+        width: 100%;
+        text-align: center;
+
+        // background: $almost-white;
+      }
+
+      .year {
+        font-size: 1em;
+        font-weight: bold;
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    .info {
+      padding: 5px 20px 20px;
+      position: relative;
+      text-align: center;
+
+      .type {
+        &:before,
+        &:after {
+          display: block;
+          width: 50%;
+          height: 2px;
+          background: $light-faint-black;
+          content: "";
+          margin: 20px auto;
+        }
+
+        &-desc {
+          font-size: 0.9em;
+          font-style: italic;
+        }
+      }
+
+      .place {
+        font-weight: 600;
+
+        &-adres {
+          font-size: 0.9em;
+          color: $dark-grey;
+
+          a {
+            text-decoration: none;
+            color: unset;
+          }
+        }
+      }
+    }
+
+    @each $event, $color, $op-color in $events {
+      &.#{$event} {
+        border-color: $color;
+
+        .date {
+          .month {
+            background-color: $color;
+          }
+
+          .day,
+          .year {
+            color: $color;
+          }
+        }
+
+        .info {
+          .place {
+            &-adres {
+              &:hover {
+                color: $color;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .event {
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: scroll;
+    width: 100vw;
+    height: 100vh;
+    z-index: 110;
+    font-size: 1rem;
+    font-weight: normal;
+    color: $faint-black;
+
+    .fa-times {
+      float: right;
+      cursor: pointer;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 25px;
+      color: #fff;
+    }
+
+    .box {
+      margin: 20px auto 0 auto;
+      background: #fff;
+      position: relative;
+      border-radius: 3px;
+      padding-top: 1px;
+      display: flex;
+      flex-direction: column;
+
+      h2 {
+        text-align: center;
+        color: #fff;
+        position: relative;
+        width: calc(100% + 60px);
+        left: -30px;
+        padding: 10px 0;
+        margin-bottom: 0;
+        top: 0;
+
+        &:before,
+        &:after {
+          @extend .before-after;
+          width: 30px;
+          height: 30px;
+          position: absolute;
+          top: 100%;
+          z-index: 0;
+          background: $red;
+        }
+
+        &:before {
+          transform: skew(45deg);
+          left: 15px;
+        }
+
+        &:after {
+          transform: skew(-45deg);
+          right: 15px;
+        }
+      }
+
+      .inside-box {
+        margin-top: 0;
+        padding: 10px 20px;
+        font-size: 13px;
+        background-color: #fff;
+        position: relative;
+        z-index: 1;
+
+        p:not(.desc) {
+          margin: 10px 0;
+        }
+
+        .svg-inline--fa {
+          padding-right: 10px;
+          font-size: 18px;
+        }
+
+        .desc {
+          font-size: 14px;
+        }
+      }
+
+      .map {
+        margin: 0;
+        font-size: 0px;
+        flex: 1 1 auto;
+
+        iframe {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+
+    .shade {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  @each $event, $color, $op-color in $events {
+    .cal-days {
+      .day {
+        .#{$event} {
+          background-color: $color;
+        }
+      }
+    }
+
+    .event {
+      &.#{$event} {
+        .shade {
+          background-color: rgba(0, 0, 0, 0.897);
+        }
+
+        .box {
+          h2 {
+            background-color: $color;
+
+            &:before,
+            &:after {
+              background-color: $op-color;
+            }
+          }
+
+          .inside-box {
+            .svg-inline--fa {
+              color: $color;
+            }
+          }
+        }
+      }
+    }
+
+    .events-list {
+      .#{$event} {
+        .date {
+          background-color: $color;
+        }
+
+        .info {
+          &-back {
+            a {
+              color: $color !important;
+            }
+          }
+        }
+
+        .eye {
+          &:hover {
+            color: $color;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: 992px) {
+    .event {
+      .box {
+        width: 60%;
+        height: calc(100% - 40px);
+      }
+    }
+  }
+
+  @media screen and (max-width: 991px) {
+    .event {
+      .box {
+        width: calc(100% - 100px);
+        height: calc(100% - 110px);
+      }
+    }
+  }
+
+  @media screen and (min-width: 501px) {
+    .events-list {
+      table {
+        min-width: 450px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    .events-list {
+      margin: 0 !important;
+      width: 100%;
+
+      table {
+        width: 100%;
+
+        tr {
+          td {
+            padding: 8px 16px;
+          }
+        }
+      }
+    }
+  }
+}

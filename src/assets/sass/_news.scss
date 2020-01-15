@@ -1,0 +1,38 @@
+.newses {
+  margin: 15px 0;
+  display: flex;
+  flex-wrap: wrap;
+
+  .news-card {
+    padding: 0 5px 5px;
+    flex: 0 1 calc(33% - 10px);
+
+    &:nth-child(odd) {}
+
+    .title {
+      margin-top: 0;
+    }
+
+    &-end {
+      border-bottom: none !important;
+    }
+
+    &:nth-child(3n-2) {
+      border-right: 1px solid $light-grey;
+      border-bottom: 1px solid $light-grey;
+    }
+
+    &:nth-child(3n-1) {
+      border-right: 1px solid $light-grey;
+      border-bottom: 1px solid $light-grey;
+    }
+
+    &:nth-child(3n) {
+      border-bottom: 1px solid $light-grey;
+    }
+
+
+  }
+
+
+}

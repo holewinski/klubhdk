@@ -1,0 +1,31 @@
+.text-red {
+  color: $red;
+}
+
+.text-blue {
+  color: $blue;
+}
+
+.before-after {
+  content: '';
+  display: block;
+}
+
+.hide {
+  cursor: none;
+
+  .panel {
+    opacity: 0;
+  }
+
+}
+
+.primary-button {
+  border-radius: 2px;
+  background-color: transparent;
+  color: $red;
+  font-size: 15px;
+  border: none;
+  padding: 2px 5px;
+  cursor: pointer;
+}

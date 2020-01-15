@@ -1,0 +1,169 @@
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all 0.4s ease-in-out;
+}
+
+.slide-fade-enter {
+  opacity: 0;
+}
+
+.slide-fade-leave-to {
+  opacity: 0;
+}
+
+.cal-enter-active,
+.cal-leave-active {
+  transition: 0.5s;
+  transform-origin: top;
+  transform: rotateX(0);
+}
+
+.cal-enter {
+  transform: rotateX(-90deg);
+
+}
+
+.cal-leave-to {
+  transform: rotateX(-90deg);
+
+}
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 1s;
+  opacity: 1;
+}
+
+.list-enter,
+.list-leave-to {
+  opacity: 0;
+
+}
+
+.calendar-enter-active,
+.calendar-leave-active {
+  transition: all 0.4s;
+
+  tbody {
+    perspective: 200vh;
+  }
+
+  tr {
+    transform: rotateX(-90deg);
+    transition: all 0.4s;
+    position: relative;
+    transform-origin: top;
+  }
+}
+
+.calendar-enter-to {
+  tr {
+    transform: rotateX(0deg);
+
+  }
+
+}
+
+.calendar-leave-to {
+  tr {
+    transform: rotateX(-90deg);
+
+  }
+}
+
+
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: all 0.4s linear;
+  position: relative;
+}
+
+.slide-left-enter {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.slide-left-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.rotate-enter-active,
+.rotate-leave-active {
+  transition: all 0.4s linear;
+
+  .day {
+    transition: all 0.4s linear;
+    position: relative;
+  }
+
+}
+
+.rotate-enter {
+  .day {
+    transform: rotateX(90deg);
+  }
+}
+
+.rotate-leave-to {
+  .day {
+    transform: rotateX(-90deg);
+  }
+}
+
+@keyframes scale {
+
+  0%,
+  100% {
+    transform: scale(1)
+  }
+
+  50% {
+    transform: scale(1.01)
+  }
+}
+
+@keyframes heart-beat {
+
+  0%,
+  30%,
+  60%,
+  100% {
+    transform: scale(1)
+  }
+
+  15%,
+  45% {
+    transform: scale(1.015)
+  }
+
+}
+
+@keyframes event {
+  0% {
+    background: $red;
+  }
+
+  25% {
+    background: $glow-red;
+  }
+
+  75% {
+    background: $faint-red;
+  }
+
+  100% {
+    background: $red
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+    color: $red;
+  }
+}

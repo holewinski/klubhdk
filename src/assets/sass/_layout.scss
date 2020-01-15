@@ -1,0 +1,174 @@
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  color: $light-faint-black;
+  box-sizing: border-box;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.4;
+
+  #banner {
+    margin-bottom: 50px;
+    background: radial-gradient(#b8000f, #650b12 75%);
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 101;
+    color: #fff;
+
+    .banner-text {
+      padding: 0 50px;
+      text-align: center;
+      text-shadow: -1px 0px $faint-black,
+        0px 1px $faint-black,
+        0px -1px $faint-black,
+        1px 0px $faint-black;
+    }
+
+    img {
+      height: 150px;
+      width: auto;
+    }
+  }
+
+  #banner2 {
+    margin-bottom: 10px;
+    padding: 15px;
+    height: 104px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid $light-grey;
+
+    h3 {
+      color: $red;
+    }
+
+    img {
+      height: 100px;
+      width: auto;
+    }
+  }
+
+  #content {
+    margin: 0 20px;
+
+    #content-in {
+
+
+      .page-title {
+        color: $red;
+        text-align: center;
+        position: relative;
+
+        // &:before,
+        // &:after {
+        //   content: '';
+        //   display: block;
+        //   width: 54px;
+        //   height: 100%;
+        //   background-color: rgb(122, 0, 10);
+        //   position: absolute;
+        //   bottom: 0;
+        //   z-index: -1
+        // }
+
+        // &:before {
+        //   left: 0;
+        //   transform: translateX(-50%) skewX(45deg);
+        // }
+
+        // &:after {
+        //   right: 0;
+        //   transform: translateX(50%) skewX(-45deg);
+        // }
+
+      }
+
+      a {
+        text-decoration: none;
+        color: $red;
+
+        &.link {
+          transition: 0.2s;
+
+          color: $faint-black;
+          background-position: 0 17px;
+          background-image: linear-gradient(to bottom, transparent 0, $red 0);
+          background-repeat: no-repeat;
+          padding: 0 2px;
+
+          &:hover {
+            color: #fff;
+            background-position: 0 0 !important;
+          }
+        }
+      }
+
+      ul {
+        list-style: none;
+
+        li {
+          position: relative;
+          padding: 2px 0;
+
+          &:before {
+            position: absolute;
+            top: 5px;
+            left: -20px;
+            height: 17px;
+            width: 12px;
+            display: block;
+            content: '';
+            background-image: url('..//images/kropelka.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+          }
+        }
+      }
+    }
+
+  }
+
+  #footer {
+    margin-top: 50px;
+    text-align: center;
+    padding: 10px;
+    border-top: 1px solid $light-grey;
+
+    #shdk {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 13px;
+
+      img {
+        margin-left: 10px;
+        height: 100px;
+      }
+    }
+
+
+    #realizacja {
+      font-size: 11px;
+      text-align: right;
+    }
+  }
+
+  @media screen and (min-width:992px) {
+    margin-left: 80px;
+
+    #content {
+      width: 80%;
+      margin-right: 10%;
+      margin-left: 10%;
+      min-height: calc(100vh - 420px);
+
+    }
+  }
+
+  @media screen and (max-width:991px) {
+    padding-bottom: 82px;
+  }
+}
