@@ -1,11 +1,15 @@
 <template>
   <div>
-    <h1 class="page-title">{{ title }}</h1>
-    <div id="galleries" v-if="activeGallery == false ">
+    <transition name="slide-fade" mode="out-in">
+      <h1 class="page-title" :duration="300" :key="title">{{ title }}</h1>
+
+    </transition>
+    <transition name="zoom" mode="out-in">
+      <div id="galleries" v-if="activeGallery == false " key="galleries">
       <div class="gallery-card" v-for="(item, id) in list" :key="item+id">
         <div
           class="gallery-cover"
-          :style="{ backgroundImage: 'url(\''+item.url.thumb+' (1).jpg\')'}"
+          :style="{ backgroundImage: 'url(\''+item.url.photo+' ('+item.thumb+').jpg\')'}"
         >
           <h3>{{ item.title}}</h3>
         </div>
@@ -18,25 +22,27 @@
           <span class="play" @click="activeGallery=item, activeComponent = 'slide-show'">
             <font-awesome-icon :icon="['fas', 'play-circle']"/>Pokaz zdjęć
           </span>
-          <span class="grid" @click="activeGallery=item, activeComponent = 'gallery-grid'">
+          <span class="grid" @click="activeGallery=item, activeComponent = 'gallery-grid', title = item.title">
             <font-awesome-icon :icon="['fas', 'th']"/>Wszystkie zdjęcia
           </span>
         </div>
       </div>
     </div>
-    <component
+    <GalleryGrid
       v-else
       @clicked="changeGallery"
       :is="activeComponent"
       :gallery="activeGallery"
       :act-slide="1"
-    ></component>
+      :key="activeComponent"
+    ></GalleryGrid>
+    </transition>
+    
   </div>
 </template>
 <script>
 import SlideShow from "@/components/galeria/SlideShow";
 import GalleryGrid from "@/components/galeria/GalleryGrid";
-import axios from "axios";
 
 export default {
   name: "Galeria",
@@ -52,7 +58,7 @@ export default {
   methods: {
     changeGallery(value) {
       this.activeGallery = value;
-      this.title = this.activeGallery.title;
+      this.title = "Galeria";
     }
   },
   components: {
@@ -70,13 +76,11 @@ export default {
             item.title +
             "/" +
             item.title;
-          console.log(item.url.photo);
           item.url.thumb =
             "http://vtest.klubhdkferstena.pl/assets/thumb/" +
             item.title +
             "/" +
             item.title;
-          console.log(item.url.thumb);
         });
       });
   }

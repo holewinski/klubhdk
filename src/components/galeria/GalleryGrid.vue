@@ -1,71 +1,44 @@
 <template>
-  <div id="gallery">
-    <div id="image-options">
-      <div class="back-gallery" @click="nullGallery()">
-        <font-awesome-icon :icon="['fas', 'caret-square-left']" />wróć
-      </div>
+  <div class="gallery">
+      <div class="button-container">
+          <button class="button button--primary back-gallery" @click="nullGallery()">
+        <font-awesome-icon :icon="['fas', 'caret-left']" />wróć
+          </button>
+      
+      
 
-      <div class="select-option" @click="changingNumber = !changingNumber">
-        <span>Ilosć zdjęć na stronie</span>
-        <font-awesome-icon :icon="['fas', 'caret-down']" />
-        <span class="current-option">{{ onPage }}</span>
-        <div class="options" :class="{ active: changingNumber }">
-          <span
-            class="option"
-            v-for="(option, id) in options"
-            :key="option"
-            @click="changeOption(option)"
-            :style="{ transitionDelay: '0.' + Math.abs(opt - id) + 's' }"
-            >{{ option }}</span
-          >
-        </div>
-      </div>
+      
     </div>
-    <div id="thumbnail-grid">
-      <div
-        class="thumbnail"
-        v-for="(photo, id) in onThisPage"
-        :key="id"
-        @click="
-          (slideShow = true),
-            (firstRender = true),
-            (activeSlide = (page - 1) * onPage + id + 1)
-        "
-      >
-        <img
-          :src="
-            gallery.url.thumb + ' (' + (id + 1 + (page - 1) * onPage) + ').jpg'
-          "
-          :key="id"
-        />
-      </div>
-    </div>
-    <div id="pages">
-      <font-awesome-icon
-        :icon="['fas', 'caret-left']"
-        @click="changePage(-1)"
-        :class="{ 'un-active': page == 1 }"
+    <div class="thumbnail-grid">
+      
+      <thumbnail 
+
+      v-for="(photo, id) in gallery.number" 
+      :key="`${gallery.title}-${id}`"
+      @click="openSlidshow(id)"
+      :id="id"
+      :thumbUrl="gallery.url.thumb"
       />
+      </div>
+     
+      
+      
+    <transition name="zoom">
+      <slide-show
 
-      <span>{{ page }}</span>
-
-      <font-awesome-icon
-        :icon="['fas', 'caret-right']"
-        @click="changePage(1)"
-        :class="{ 'un-active': page == numOfPages }"
-      />
-    </div>
-    <slide-show
       @clicked="changeGallery"
       :gallery="gallery"
       :act-slide="activeSlide"
       v-show="slideShow"
       v-if="firstRender"
     />
+    </transition>
+    
   </div>
 </template>
 <script>
 import SlideShow from "@/components/galeria/SlideShow";
+import Thumbnail from "@/components/galeria/Thumbnail";
 
 export default {
   name: "GalleryGrid",
@@ -75,58 +48,28 @@ export default {
       slideShow: false,
       firstRender: false,
       activeSlide: 1,
-      options: [20, 30, 40, 50],
-      page: 1,
-      onPage: 20,
-      changingNumber: false
+      changingNumber: false,
+      observer: null,
+      intersected: 0
     };
-  },
-  computed: {
-    opt() {
-      if (this.changingNumber) {
-        return 0;
-      } else {
-        return this.options.length;
-      }
-    },
-
-    numOfPages() {
-      return Math.ceil(this.gallery.number / this.onPage);
-    },
-    onThisPage() {
-      if (this.page == this.numOfPages) {
-        return this.gallery.number - this.onPage * (this.page - 1);
-      } else {
-        return this.onPage;
-      }
-    },
-    photoId() {}
   },
   methods: {
     changeGallery(value) {
       this.slideShow = value;
     },
-    changeOption(option) {
-      this.onPage = option;
-      if (this.page > this.numOfPages) {
-        this.page = this.numOfPages;
-      }
-    },
     nullGallery(event) {
       this.$emit("clicked", false);
     },
-    changePage(a) {
-      if (this.page + a == 0 || this.page + a > this.numOfPages) {
-      } else {
-        this.page += a;
-        document
-          .querySelector("#thumbnail-grid")
-          .scrollIntoView({ behavior: "smooth" });
-      }
+    openSlidshow(id) {
+      console.log("halo", id);
+      this.slideShow = true;
+      this.firstRender = true;
+      this.activeSlide = id + 1;
     }
   },
   components: {
-    SlideShow
+    SlideShow,
+    Thumbnail
   }
 };
 </script>

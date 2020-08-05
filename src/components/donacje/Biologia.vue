@@ -1,6 +1,6 @@
 <template>
     <div>
-    
+        
         <h1 class="page-title">Krew i jej znaczenie biologiczne</h1>
     
         <ul>
@@ -122,19 +122,13 @@
     </div>
 </template>
 <script>
-    export default {
-    
-        name: 'Biologia',
-    
-        data() {
-    
-            return {
-    
-                msg: 'Wrunki oddawania krwi'
-    
-            }
-    
-        }
-    
-    }
+export default {
+  name: "Biologia",
+
+  data() {
+    return {
+      msg: "Wrunki oddawania krwi"
+    };
+  }
+};
 </script>

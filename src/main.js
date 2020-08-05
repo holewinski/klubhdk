@@ -1,15 +1,37 @@
 import Vue from "vue";
+import Vuex from "vuex"
 import App from "./App";
 import router from "./router";
-import * as firebase from "firebase/app";
-import * as firebaseui from 'firebaseui'
+import firebase from "firebase/app";
 import "firebase/database";
+import "firebase/firestore";
+import "firebase/functions";
+
+import vuexStore from './store.js';
+const store = vuexStore;
+
+import firebaseConfig from './apiKeys.js'
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
 
 import {
   library
 } from "@fortawesome/fontawesome-svg-core";
 
 import {
+  faTerminal,
+  faCode,
+  faListOl,
+  faListUl,
+  faParagraph,
+  faQuoteRight,
+  faRedo,
+  faUndo,
+  faStrikethrough,
+  faUnderline,
+  faBold,
+  faItalic,
   faCaretRight,
   faCaretLeft,
   faTimes,
@@ -18,6 +40,7 @@ import {
   faBars,
   faFilePdf,
   faImages,
+  faImage,
   faTh,
   faPlayCircle,
   faChevronRight,
@@ -40,6 +63,18 @@ import {
 export const Events = new Vue();
 
 library.add(
+  faTerminal,
+  faCode,
+  faListOl,
+  faListUl,
+  faParagraph,
+  faQuoteRight,
+  faRedo,
+  faUndo,
+  faStrikethrough,
+  faUnderline,
+  faBold,
+  faItalic,
   faCaretRight,
   faCaretLeft,
   faTimes,
@@ -48,6 +83,7 @@ library.add(
   faBars,
   faFilePdf,
   faImages,
+  faImage,
   faTh,
   faPlayCircle,
   faChevronRight,
@@ -66,19 +102,11 @@ library.add(
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 Vue.config.productionTip = false;
-const firebaseConfig = {
-  apiKey: "AAAAsvZ0VJU:APA91bHTIKz-LddY-2I7b9dit-V8ESovZ-vQAqeANqTjaUc0im5eZL3qNXmt8GSCSKzyx9wZoqL4qlzoCjeNNnSg5fLzGze29lRIRFAjvl7hiYSC8udfC67wfcAO_ICB044aqNicwjez",
-  authDomain: "klubhdk-b275c.firebaseapp.com",
-  databaseURL: "https://klubhdk-b275c.firebaseio.com",
-  projectId: "klubhdk-b275c",
-  storageBucket: "klubhdk-b275c.appspot.com",
-  messagingSenderId: "768638997653"
-};
-firebase.initializeApp(firebaseConfig);
 
 /* eslint-disable no-new */
 new Vue({
   el: "#app",
+  store,
   router,
   render: h => h(App)
 });

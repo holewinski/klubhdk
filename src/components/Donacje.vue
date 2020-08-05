@@ -28,7 +28,6 @@ import Sposoby from "@/components/donacje/Sposoby";
 import Warunki from "@/components/donacje/Warunki";
 import Korzysci from "@/components/donacje/Korzysci";
 import Biologia from "@/components/donacje/Biologia";
-import Calendar from "@/components/Calendar";
 
 export default {
   name: "Donacje",

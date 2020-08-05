@@ -1,36 +1,27 @@
 <template>
-  <div id="content">
-    <div id="side-menu" :class="{ 'view-mobile': mobile }">
+  <main class="content">
+    <div class="content__menu" v-if="childrenArray">
       <transition name="slide-fade" mode="out-in" appear>
-        <ul :key="currMain + 'side'">
-          <li
-            v-for="(link, index) in currMain"
-            @click="(currentComponent = link), (mobile = false)"
-            :key="link + 'a'"
-            :class="{ 'active-link': link == currentComponent }"
-            :style="{ transitionDelay: +index * 0.1 + 's' }"
-          >
-            <span>{{ link }}</span>
-          </li>
+        <ul class="list">
+          <router-link
+            v-for="{ name, path } in childrenArray"
+            :to="path"
+            :key="name"
+            tag="li"
+            class="menu__link"
+            :class="{ 'active-link': includesPath(path) }"  
+          exact>
+            {{ name }}
+          </router-link>
         </ul>
       </transition>
-      <font-awesome-icon
-        :icon="['fas', 'caret-down']"
-        @click="mobile = !mobile"
-        :class="{ hide: currMain.length < 2 }"
-      />
     </div>
-
-    <div id="content-in">
-      <transition name="slide-fade" mode="out-in" appear>
-        <component
-          :is="currentComponent"
-          :windowWidth="windowWidth"
-          :component="'list'"
-        ></component>
+    <div class="content__inside">
+      <transition :name="transitionName" mode="out-in">
+        <router-view :key="currentPath"></router-view>
       </transition>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -46,74 +37,44 @@ import Patron from "@/components/historia/Patron";
 import Kontakt from "@/components/informacje/Kontakt";
 import Aktualnosci from "@/components/informacje/Aktualnosci";
 import Galeria from "@/components/Galeria";
+import Wpis from "@/components/informacje/Wpis";
 
 export default {
   name: "Content",
 
   data() {
     return {
-      donacje: [
-        "Warunki",
-        "Choroby",
-        "Kroki",
-        "Sposoby",
-        "Korzysci",
-        "Biologia"
-      ],
-      historia: ["Klub", "Patron"],
-      informacje: ["Kalendarz", "Kontakt", "Aktualnosci"],
-      galeria: ["Galeria"],
-      currentComponent: null,
-      currMain: null,
-      mobileMargin: 0,
-      windowWidth: document.documentElement.clientWidth,
-      mobile: false
+      transitionName: "slide-top"
     };
   },
-  computed: {},
-  watch: {
-    $route: function(to, from) {
-      console.log(10);
-      switch (this.$route.path) {
-        case "/donacje":
-          this.currMain = this.donacje;
-          console.log(this.$route.path);
-          break;
-        case "/historia":
-          this.currMain = this.historia;
-          console.log(this.$route.path);
-          break;
-        case "/informacje":
-          this.currMain = this.informacje;
-          console.log(this.$route.path);
-          break;
-        case "/galeria":
-          this.currMain = this.galeria;
-          break;
-      }
-      this.currentComponent = this.currMain[0];
-      this.mobile = false;
+  methods: {
+    includesPath(path) {
+      return this.currentPath.split("/").includes(path);
     }
   },
-  created() {
-    switch (this.$route.path) {
-      case "/donacje":
-        this.currMain = this.donacje;
-        console.log(this.$route.path);
-        break;
-      case "/historia":
-        this.currMain = this.historia;
-        console.log(this.$route.path);
-        break;
-      case "/informacje":
-        this.currMain = this.informacje;
-        console.log(this.$route.path);
-        break;
-      case "/galeria":
-        this.currMain = this.galeria;
-        break;
+  computed: {
+    hasChilds() {
+      return this.currentPath.split("/").length > 2;
+    },
+    firstDepth() {
+      return this.$router.options.routes[0].children;
+    },
+    childrenArray() {
+      const rout = this.$router.options.routes[0].children;
+      if (this.hasChilds) {
+        const firstPart = this.currentPath.split("/")[1],
+          currentObject = rout.find(item => item.path == firstPart);
+        return currentObject.children;
+      } else {
+        return false;
+      }
+    },
+    child() {
+      return this.currentPath.split("/")[1];
+    },
+    currentPath() {
+      return this.$route.path;
     }
-    this.currentComponent = this.currMain[0];
   },
   components: {
     Warunki,
@@ -128,6 +89,33 @@ export default {
     Patron,
     Galeria,
     Aktualnosci
+  },
+  watch: {
+    $route(to, from) {
+      if (this.hasChilds) {
+        const toDepth = to.path.split("/"),
+          toDepthIndex = this.firstDepth.findIndex(({ path }) => {
+            return path == toDepth[1];
+          }),
+          fromDepth = from.path.split("/"),
+          fromDepthIndex = this.firstDepth.findIndex(({ path }) => {
+            return path == fromDepth[1];
+          }),
+          toIndex = this.childrenArray.findIndex(({ name }) => name == to.name),
+          fromIndex = this.childrenArray.findIndex(
+            ({ name }) => name == from.name
+          );
+        if (toDepthIndex > fromDepthIndex) {
+          this.transitionName = "slide-top";
+        } else if (toDepthIndex < fromDepthIndex) {
+          this.transitionName = "slide-bottom";
+        } else if (toIndex > fromIndex) {
+          this.transitionName = "slide-left";
+        } else {
+          this.transitionName = "slide-right";
+        }
+      }
+    }
   }
 };
 </script>

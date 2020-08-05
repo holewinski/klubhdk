@@ -1,15 +1,162 @@
 .slide-fade-enter-active,
 .slide-fade-leave-active {
   transition: all 0.4s ease-in-out;
+  opacity: 1;
 }
 
 .slide-fade-enter {
   opacity: 0;
 }
 
+.slide-fade-enter-to {
+  opacity: 1;
+}
+
 .slide-fade-leave-to {
   opacity: 0;
 }
+
+.slide-left {
+
+  &-enter-active,
+  &-leave-active {
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    transform: translateX(0);
+    opacity: 1;
+
+  }
+
+  &-enter {
+    transform: translateX(100vw);
+    opacity: 0;
+
+  }
+
+  &-leave-to {
+    transform: translateX(-100vw);
+    opacity: 0;
+
+  }
+}
+
+
+.zoom {
+
+  &-enter-active,
+  &-leave-active {
+    transition: all 0.3s ease-in-out;
+
+    &.news,
+    .news-card,
+    .gallery-card,
+    &.slideshow,
+    .thumbnail,
+    .back-gallery {
+      transition: all 0.3s linear;
+      transform: scale(1);
+      opacity: 1;
+    }
+
+  }
+
+  &-enter {
+
+    &.news,
+    .news-card,
+    .gallery-card,
+    &.slideshow,
+    .thumbnail,
+    .back-gallery {
+      transform: scale(0) !important;
+      opacity: 0;
+
+    }
+  }
+
+  &-leave-to {
+
+    &.news,
+    .news-card,
+    .gallery-card,
+    &.slideshow,
+    .thumbnail,
+    .back-gallery {
+      transform: scale(0) !important;
+      opacity: 0;
+
+    }
+  }
+}
+
+.slide-top {
+
+  &-enter-active,
+  &-leave-active {
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    transform: translateY(0);
+    opacity: 1;
+
+  }
+
+  &-enter {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+
+  &-leave-to {
+    transform: translateY(-100vh);
+    opacity: 0;
+
+
+  }
+}
+
+.slide-bottom {
+
+  &-enter-active,
+  &-leave-active {
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    transform: translateY(0);
+    opacity: 1;
+
+  }
+
+  &-enter {
+    transform: translateY(-100vh);
+    opacity: 0;
+
+
+  }
+
+  &-leave-to {
+    transform: translateY(100vh);
+    opacity: 0;
+
+  }
+}
+
+.slide-right {
+
+  &-enter-active,
+  &-leave-active {
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  &-enter {
+    transform: translateX(-100vw);
+    opacity: 0;
+
+  }
+
+  &-leave-to {
+    transform: translateX(100vw);
+    opacity: 0;
+
+  }
+}
+
 
 .cal-enter-active,
 .cal-leave-active {
@@ -20,12 +167,10 @@
 
 .cal-enter {
   transform: rotateX(-90deg);
-
 }
 
 .cal-leave-to {
   transform: rotateX(-90deg);
-
 }
 
 .list-enter-active,
@@ -37,7 +182,6 @@
 .list-enter,
 .list-leave-to {
   opacity: 0;
-
 }
 
 .calendar-enter-active,
@@ -59,34 +203,30 @@
 .calendar-enter-to {
   tr {
     transform: rotateX(0deg);
-
   }
-
 }
 
 .calendar-leave-to {
   tr {
     transform: rotateX(-90deg);
-
   }
 }
 
+// .slide-left-enter-active,
+// .slide-left-leave-active {
+//   transition: all 0.4s linear;
+//   position: relative;
+// }
 
-.slide-left-enter-active,
-.slide-left-leave-active {
-  transition: all 0.4s linear;
-  position: relative;
-}
+// .slide-left-enter {
+//   transform: translateX(100%);
+//   opacity: 0;
+// }
 
-.slide-left-enter {
-  transform: translateX(100%);
-  opacity: 0;
-}
-
-.slide-left-leave-to {
-  transform: translateX(-100%);
-  opacity: 0;
-}
+// .slide-left-leave-to {
+//   transform: translateX(-100%);
+//   opacity: 0;
+// }
 
 .rotate-enter-active,
 .rotate-leave-active {
@@ -96,7 +236,6 @@
     transition: all 0.4s linear;
     position: relative;
   }
-
 }
 
 .rotate-enter {
@@ -115,11 +254,11 @@
 
   0%,
   100% {
-    transform: scale(1)
+    transform: scale(1);
   }
 
   50% {
-    transform: scale(1.01)
+    transform: scale(1.01);
   }
 }
 
@@ -129,33 +268,32 @@
   30%,
   60%,
   100% {
-    transform: scale(1)
+    transform: scale(1);
   }
 
   15%,
   45% {
-    transform: scale(1.015)
-  }
-
-}
-
-@keyframes event {
-  0% {
-    background: $red;
-  }
-
-  25% {
-    background: $glow-red;
-  }
-
-  75% {
-    background: $faint-red;
-  }
-
-  100% {
-    background: $red
+    transform: scale(1.015);
   }
 }
+
+// @keyframes event {
+//   0% {
+//     background: $red;
+//   }
+
+//   25% {
+//     background: $glow-red;
+//   }
+
+//   75% {
+//     background: $faint-red;
+//   }
+
+//   100% {
+//     background: $red;
+//   }
+// }
 
 @keyframes rotate {
   0% {

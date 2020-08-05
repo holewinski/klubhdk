@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form @submit="send">
+    <form @submit.prevent="send">
       <h2>Dodaj nowe wydarzenie</h2>
       <table>
         <tbody>
@@ -44,7 +44,7 @@
       </table>
     </form>
     <ul>
-      <li v-for="{ adres, key, name } in places" :key="key">
+      <li v-for="{ addres, key, name } in places" :key="key">
         <form>
           <table>
             <th>
@@ -54,9 +54,9 @@
               <td>
                 <input
                   type="text"
-                  :value="adres"
+                  :value="addres"
                   readonly
-                  :size="adres.length"
+                  :size="addres.length"
                 />
               </td>
             </tr>
@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import firebase from "firebase";
+import firebase, { storage } from "firebase/app";
 
 export default {
   name: "calendarConf",
@@ -99,30 +99,29 @@ export default {
   },
   methods: {
     send() {
-      firebase
-        .database()
-        .ref(`events/${this.year}`)
-        .child(this.event.date)
-        .set(this.event);
-      console.log(`events/${this.year}`, this.event);
+      const databse = firebase.firestore();
+      databse
+        .collection("events")
+        .doc()
+        .set(this.event)
+        .then(() => {
+          this.event = {};
+        })
+        .catch(error => console.log(error));
     }
   },
   created() {
-    const database = firebase.database(),
-      places = database.ref("places"),
-      types = database.ref("types"),
-      events = database.ref("events");
-    places.on(
-      "value",
-      data => (this.places = data.val()),
-      error => console.log(error.code)
-    );
-    types.on(
-      "value",
-      data => (this.types = data.val()),
-      error => console.log(error.code)
-    );
-    events.push(event);
+    const database = firebase.firestore(),
+      places = database.collection("places"),
+      types = database.collection("types"),
+      events = database.collection("events");
+    places
+      .get()
+      .then(array => array.forEach(doc => this.places.push(doc.data())));
+
+    types
+      .get()
+      .then(array => array.forEach(doc => this.types.push(doc.data())));
   }
 };
 </script>

@@ -20,6 +20,18 @@
 
 }
 
+.button {
+  &--primary {
+    border-radius: 2px;
+    background-color: transparent;
+    color: $red;
+    font-size: 15px;
+    border: none;
+    padding: 2px 5px;
+    cursor: pointer;
+  }
+}
+
 .primary-button {
   border-radius: 2px;
   background-color: transparent;

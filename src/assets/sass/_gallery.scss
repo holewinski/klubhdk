@@ -1,27 +1,29 @@
 //lista do responsywności galerii
 $galleries-prop: ((break-point: 991px,
     widths: 33%,
-    margins: 10px),
+    margins: 8px),
   (break-point: 700px,
     widths: 50%,
     margins: 10px),
-  (break-point: 450px,
+  (break-point: 550px,
     widths: 50%,
     margins: 5px),
-  (break-point: 449px,
+  (break-point: 549px,
     widths: 100%,
     margins: 0px));
 
 #galleries {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 
   .gallery-card {
-    box-shadow: 1px 1px 8px 1px $light-grey;
+    border: 2px solid $almost-white;
     position: relative;
     overflow: hidden;
     border-radius: 5px;
-    border: 1px solid $light-grey;
+    display: flex;
+    flex-direction: column;
 
     .gallery-cover {
       position: relative;
@@ -36,8 +38,9 @@ $galleries-prop: ((break-point: 991px,
         height: 100%;
         display: block;
         position: absolute;
-        background-image: linear-gradient(rgba(0, 0, 0, 0),
-            rgba(0, 0, 0, 0.795));
+        background: linear-gradient(0deg,
+            rgba(0, 0, 0, 0.9) 0%,
+            rgba(0, 0, 0, 0) 100%);
         bottom: 0;
       }
 
@@ -50,12 +53,19 @@ $galleries-prop: ((break-point: 991px,
         margin: 0;
         color: #fff;
         z-index: 2;
+        font-size: 1.5em;
+        padding: 20px 0 10px;
+        text-shadow: 1px 0px $faint-black, -1px 0px $faint-black,
+          0px 1px $faint-black, 0px -1px $faint-black;
       }
     }
 
     .gallery-info {
       position: relative;
-      padding: 0 5px 5px 5px;
+      padding: 0 10px 10px 10px;
+      flex: 1 0 auto;
+      display: flex;
+      flex-direction: column;
 
       .number {
         font-size: 15px;
@@ -63,8 +73,9 @@ $galleries-prop: ((break-point: 991px,
       }
 
       .description {
-        font-size: 14px;
+        font-size: 0.9em;
         text-align: left;
+        flex: 1 0 auto;
       }
 
       .play,
@@ -94,7 +105,7 @@ $galleries-prop: ((break-point: 991px,
     }
   }
 
-  //Pętla tworząca kod responsywny galerii na podstawie listy na początku pliku
+  // Pętla tworząca kod responsywny galerii na podstawie listy na początku pliku
   @for $i from 1 through length($galleries-prop) {
     $map: nth($galleries-prop, $i);
     $break-point: map-get($map, break-point);
@@ -105,7 +116,7 @@ $galleries-prop: ((break-point: 991px,
       @media screen and (min-width: $break-point) {
         .gallery-card {
           margin: $margin;
-          width: calc(#{$width} - #{2 * $margin});
+          width: calc(#{$width} - #{2 * $margin + 4});
         }
       }
     }
@@ -114,7 +125,7 @@ $galleries-prop: ((break-point: 991px,
       @media screen and (max-width: $break-point) {
         .gallery-card {
           margin: $margin;
-          width: calc(#{$width} - #{2 * $margin});
+          width: calc(#{$width} - #{2 * $margin + 4});
         }
       }
     }
@@ -125,7 +136,7 @@ $galleries-prop: ((break-point: 991px,
       @media screen and (min-width: $break-point) and (max-width: $prev-break) {
         .gallery-card {
           margin: $margin;
-          width: calc(#{$width} - #{2 * $margin});
+          width: calc(#{$width} - #{2 * $margin + 4});
         }
       }
     }
@@ -138,69 +149,22 @@ $galleries-prop: ((break-point: 991px,
   }
 }
 
-#slide-show {
+.slideshow {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(#470005, #0f0001 75%);
+  background: $black;
   z-index: 120;
 
-  .panel {
-    color: $light-grey;
-    transition: 0.4s;
-  }
-
-  #box {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 100%;
-
-    &:active {
-
-      #next,
-      #back {
-        opacity: 1;
-      }
-
-      #panel {
-        transform: translateY(0);
-      }
+  &.hide {
+    .slideshow__control {
+      opacity: 0;
     }
   }
 
-  .fa-times {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 2000;
-    font-size: 30px;
-  }
-
-  .slide-number {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.8);
-    font-size: 15px;
-    padding: 8px 12px;
-    border-radius: 5px;
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  svg {
-    cursor: pointer;
-    transition: 0.2s;
-
-    &:not(.dis-button):hover {
-      transform: scale(1.2);
-    }
-  }
-
-  #panel {
+  &__panel {
     flex: 1 1 auto;
     display: flex;
     align-items: center;
@@ -208,9 +172,6 @@ $galleries-prop: ((break-point: 991px,
     top: 20px;
     left: 15px;
     z-index: 10;
-
-    // transform:translateY(100%);
-    // transition: translate 0.3s;
 
     .set-time {
       display: flex;
@@ -282,7 +243,16 @@ $galleries-prop: ((break-point: 991px,
     }
   }
 
-  #slide {
+  &__control {
+    color: $light-grey;
+    transition: 0.2s;
+    border: none;
+    background: none;
+    cursor: pointer;
+    opacity: 1;
+  }
+
+  &__slide {
     max-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -293,26 +263,23 @@ $galleries-prop: ((break-point: 991px,
     img {
       max-width: 100%;
       flex: 1 1 auto;
-      transition: filter 0.3s;
-      filter: brightness(100%) grayscale(0%);
-      box-shadow: 0px 0px 14px 8px #2d0000;
+      transition: filter 0.5s;
+      filter: opacity(1) grayscale(0%);
     }
 
     .fa-spinner {
       font-size: 50px;
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%);
+      top: calc(50% - 25px);
+      left: calc(50% - 25px);
       opacity: 0;
-
       z-index: 10;
       color: #fff;
     }
 
     &.loading {
       img {
-        filter: brightness(50%) grayscale(100%);
+        filter: opacity(0.05) grayscale(100%);
       }
 
       .fa-spinner {
@@ -322,18 +289,63 @@ $galleries-prop: ((break-point: 991px,
     }
   }
 
-  #next {
+  &__box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+
+    &:active {
+
+      .slaideshow__next,
+      .slaideshow__back {
+        opacity: 1;
+      }
+
+      .slaideshow__panel {
+        transform: translateY(0);
+      }
+    }
+  }
+
+  .fa-times {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 200;
+    font-size: 2em;
+    padding: 15px;
+    cursor: pointer;
+  }
+
+  .slide-number {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    font-size: 15px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  svg {
+    transition: 0.2s;
+  }
+
+  &__next {
     padding: 0 10px 0 30px;
     right: 0;
   }
 
-  #back {
+  &__back {
     padding: 0 30px 0 10px;
     left: 0;
   }
 
-  #back,
-  #next {
+  &__next,
+  &__back {
     position: absolute;
     color: rgb(125, 125, 125);
     height: 100%;
@@ -343,8 +355,8 @@ $galleries-prop: ((break-point: 991px,
     align-items: center;
     justify-content: center;
     z-index: 9;
-    background-color: rgba(0, 0, 0, 0.7);
 
+    // background-color: rgba(0, 0, 0, 0.7);
     svg {
       transition: 0.3s;
       opacity: 1;
@@ -370,6 +382,7 @@ $galleries-prop: ((break-point: 991px,
     &:not(.dis-button):hover {
       cursor: pointer;
       color: #fff;
+      transform: scale(1.2);
 
       &:after {
         opacity: 1;
@@ -378,138 +391,134 @@ $galleries-prop: ((break-point: 991px,
   }
 }
 
-#gallery {
-  #image-options {
+.gallery {
+  .back-gallery {
+    cursor: pointer;
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: flex-start;
+    transition: 0.3s;
+    color: #fff;
 
-    .back-gallery {
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      transition: 0.3s;
+    svg {
+      font-weight: regular;
+      font-size: 30px;
+      padding-right: 5px;
+    }
+  }
 
+  .select-option {
+    display: inline-flex;
+    align-content: center;
+    cursor: pointer;
+    position: relative;
+    margin-bottom: 20px;
+
+    &:hover {
       svg {
-        font-weight: regular;
-        font-size: 30px;
-        padding-right: 5px;
-        color: $red;
-      }
-
-      &:hover {
-        color: $red;
-
-        svg {
-          animation: scale 0.5s 1 linear;
-        }
+        animation: scale 0.5s 1 linear;
       }
     }
 
-    .select-option {
-      display: inline-flex;
-      align-content: center;
-      cursor: pointer;
-      position: relative;
-      margin-bottom: 20px;
+    svg {
+      font-size: 30px;
+      color: #fff;
+      background: $red;
+      border-radius: 2px;
+      width: 30px;
+      margin: 0 1px 0 5px;
+    }
 
-      &:hover {
-        svg {
-          animation: scale 0.5s 1 linear;
+    .current-option {
+      width: 80px;
+      text-align: center;
+      display: block;
+      background-color: $faint-black;
+      color: #fff;
+      border-radius: 2px;
+      font-size: 20px;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      width: 80px;
+      font-size: 20px;
+      position: absolute;
+      right: 0;
+      top: 100%;
+
+      .option {
+        cursor: pointer;
+        position: relative;
+        opacity: 0;
+        top: -30px;
+        transition: 0.12s;
+        background: $red;
+        color: #fff;
+        width: 100%;
+        text-align: center;
+        padding: 2px 0;
+        margin-top: 1px;
+        border-radius: 2px;
+        z-index: 10;
+
+        &:first-child {
+          z-index: -1;
         }
       }
 
-      svg {
-        font-size: 30px;
-        color: #fff;
-        background: $red;
-        border-radius: 2px;
-        width: 30px;
-        margin: 0 1px 0 5px;
-      }
-
-      .current-option {
-        width: 80px;
-        text-align: center;
-        display: block;
-        background-color: $faint-black;
-        color: #fff;
-        border-radius: 2px;
-        font-size: 20px;
-      }
-
-      .options {
-        display: flex;
-        flex-direction: column;
-        width: 80px;
-        font-size: 20px;
-        position: absolute;
-        right: 0;
-        top: 100%;
-
+      &.active {
         .option {
-          cursor: pointer;
-          position: relative;
-          opacity: 0;
-          top: -30px;
-          transition: 0.12s;
-          background: $red;
-          color: #fff;
-          width: 100%;
-          text-align: center;
-          padding: 2px 0;
-          margin-top: 1px;
-          border-radius: 2px;
-          z-index: 10;
+          opacity: 1;
+          top: 0;
 
           &:first-child {
-            z-index: -1;
-          }
-        }
-
-        &.active {
-          .option {
-            opacity: 1;
-            top: 0;
-
-            &:first-child {
-              z-index: 10;
-            }
+            z-index: 10;
           }
         }
       }
     }
   }
 
-  #thumbnail-grid {
+  .thumbnail-grid {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    margin: 50px 0;
 
     .thumbnail {
       margin: 0.5px;
       box-sizing: border-box;
       height: 0;
-
+      transition: box-shadow 0.2s linear, transform 0.2s linear,
+        opacity 0.5s linear 0.1s;
       overflow: hidden;
       position: relative;
-      transition: 0.3s;
       z-index: 0;
-      box-shadow: 0px 0px 0px #000;
+      box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      opacity: 1;
 
       &:hover {
-        box-shadow: 1px 1px 10px #000;
-        transform: scale(1.1);
+        box-shadow: 0 0 5px 6px rgba(0, 0, 0, 0.5);
+        transform: scale(1.2);
         z-index: 1;
+        cursor: pointer;
       }
 
       img {
         position: absolute;
-        width: auto;
-        height: 100%;
-        top: 0;
-        left: 0;
+        width: 101%;
+        height: 101%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        object-fit: cover;
         cursor: pointer;
+        display: block;
       }
     }
   }
@@ -533,34 +542,6 @@ $galleries-prop: ((break-point: 991px,
         cursor: default;
         opacity: 0.5;
       }
-    }
-  }
-
-  @media screen and (min-width: 992px) {
-    .thumbnail {
-      width: calc(100% / 6 - 2px);
-      padding-top: calc(100% / 6 - 2px);
-    }
-  }
-
-  @media screen and (min-width: 701px) and (max-width: 991px) {
-    .thumbnail {
-      width: calc(25% - 2px);
-      padding-top: calc(25% - 2px);
-    }
-  }
-
-  @media screen and (min-width: 571px) and (max-width: 700px) {
-    .thumbnail {
-      width: calc(33% - 2px);
-      padding-top: calc(33% - 2px);
-    }
-  }
-
-  @media screen and (max-width: 570px) {
-    .thumbnail {
-      width: calc(50% - 2px);
-      padding-top: calc(50% - 2px);
     }
   }
 }

@@ -1,0 +1,457 @@
+.calendar {
+  border-radius: 4px;
+  overflow: hidden;
+
+  .cal-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: $red;
+    text-align: center;
+    padding: 5px 0;
+    border-bottom: 1px solid $light-grey;
+    
+    .next-prev {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: calc(100%/7);
+
+      &.next div {
+        text-align: right;
+      }
+
+      &.prev div {
+        text-align: left;
+      }
+
+      &>div {
+
+        display: flex;
+        align-items: center;
+      }
+
+      svg {
+        padding: 0 5px;
+        height: 25px;
+      }
+    }
+
+    .currentDate {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      flex: 1 1 auto;
+
+      .year {
+        font-size: 25px;
+        font-weight: bold;
+      }
+
+      .month {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .day-names {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    color: $faint-red;
+    margin-bottom: -1px;
+    z-index: 2;
+    position: relative;
+    padding-top: 5px;
+
+    .day-name {
+      padding: 0 10px;
+      text-align: center;
+      border-bottom: 2px solid $red;
+      margin: 0;
+      position: relative;
+
+      &:first-child {
+        border-left: none;
+      }
+    }
+  }
+
+  .cal-days {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: center;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+
+    .day {
+      flex: 1 0 13%;
+      height: auto;
+      position: relative;
+      margin: 5px 0;
+
+      &.pass {
+        opacity: 0.4;
+
+        // .number {
+        //   &:after {
+        //     display: block;
+        //     content: '';
+        //     width: 100%;
+        //     height: 2px;
+        //     background-color: #000;
+        //     transform: rotate(45deg);
+        //     position: absolute;
+        //     top: 50%;
+        //     right: 0;
+
+
+        //   }
+        // }
+
+      }
+
+      &.current-day {
+        color: $red;
+        font-weight: bold;
+
+        .day-number {
+          position: relative;
+
+          &:after,
+          &:before {
+            content: '';
+            display: block;
+            width: 13px;
+            height: 1px;
+            background-color: $red;
+            position: absolute;
+            top: 6px;
+          }
+
+          &:before {
+            left: 0;
+            transform: rotate(45deg);
+          }
+
+          &:after {
+            right: 0;
+            transform: rotate(-45deg);
+          }
+
+          .number {
+
+            &:after,
+            &:before {
+              content: '';
+              display: block;
+              width: 13px;
+              height: 1px;
+              background-color: $red;
+              position: absolute;
+              bottom: 6px;
+            }
+
+            &:before {
+              left: 0;
+              transform: rotate(-45deg);
+            }
+
+            &:after {
+              right: 0;
+              transform: rotate(45deg);
+            }
+          }
+        }
+
+
+      }
+
+
+      &.prev,
+      &.next {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 15px;
+        filter: brightness(180%);
+        // @media screen and (max-width:991px){
+        //   font-size:13px;
+        // }
+      }
+
+
+      .day-number {
+        display: inline-block;
+        font-size: 22px;
+        border-radius: 3px;
+        width: 26.6px;
+        padding: 6px;
+        position: relative;
+        @media screen and (max-width:991px){
+          font-size:19px
+        }
+
+
+
+
+        &.has-event {
+          color: #fff;
+          font-weight: bold;
+
+          .number {
+            cursor: pointer;
+          }
+        }
+      }
+
+    }
+  }
+
+  .cal-legend{
+    h3{
+      cursor: pointer;
+    }
+    ul{
+      padding-left:0;
+      overflow-y:hidden;
+      transition:max-height 0.5s ease-in-out;
+      max-height:500px;
+      height:auto;
+      position:relative;
+      &.folded{
+        max-height:0;
+      }
+      li{
+        padding-bottom:10px;
+        &:before{
+          display:none !important;
+        }
+      }
+    }
+    .day-number{
+      padding:9px;
+      font-size:20px;
+      display:inline-flex;
+      &.has-event{
+        font-weight:700;
+        color:#fff;
+        border-radius:3px;
+        &.donacja{
+          background-color:$red;
+        }
+        &.impreza{
+          background-color:$blue;
+        }
+        &.spotkanie{
+          background-color:$orange;
+        }
+      }
+    }
+    .day-number.current-day {
+      color: $red;
+      font-weight: bold;
+      position: relative;
+
+        &:after,
+        &:before {
+          content: '';
+          display: block;
+          width: 12px;
+          height: 1px;
+          background-color: $red;
+          position: absolute;
+          top: 6px;
+        }
+
+        &:before {
+          left: 0;
+          transform: rotate(45deg);
+        }
+
+        &:after {
+          right: 0;
+          transform: rotate(-45deg);
+        }
+
+        .number {
+
+          &:after,
+          &:before {
+            content: '';
+            display: block;
+            width: 12px;
+            height: 1px;
+            background-color: $red;
+            position: absolute;
+            bottom: 6px;
+          }
+
+          &:before {
+            left: 0;
+            transform: rotate(-45deg);
+          }
+
+          &:after {
+            right: 0;
+            transform: rotate(45deg);
+          }
+        }
+
+
+    }
+  }
+
+  .event {
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: scroll;
+    width: 100vw;
+    height: 100vh;
+    z-index: 20;
+    font-size: 1rem;
+    font-weight: normal;
+    color: $faint-black;
+
+    .fa-times {
+      float: right;
+      cursor: pointer;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 25px;
+      color: #fff;
+    }
+
+    .box {
+      width: 70%;
+      margin: 20px auto 0 auto;
+      background: #fff;
+      position: relative;
+      border-radius: 3px;
+      padding-top: 1px;
+      
+      
+      
+      
+      h2 {
+
+        text-align:center;
+        color:#fff;
+        position:relative;
+        width:calc(100% + 60px);
+        left:-30px;
+        padding:10px 0;
+        margin-bottom:0;
+        top:0;
+        &:before,
+        &:after {
+          @extend .before-after;
+          width: 30px;
+          height: 30px;
+          position:absolute;
+          top:100%;
+          z-index:0;
+          background:$red;
+        }
+        &:before{
+            transform:skew(45deg);
+            left:15px;
+        }
+        &:after{
+            transform:skew(-45deg);
+            right:15px;
+        }
+        
+      }
+
+      .inside-box {
+        margin-top:0;
+        padding: 10px 20px;
+        font-size: 13px;
+        background-color:#fff;
+        position: relative;
+        z-index:1;
+        p:not(.desc){
+          margin:10px 0;
+        }
+        .svg-inline--fa {
+          padding-right: 10px;
+          font-size: 18px;
+        }
+        .desc{
+          
+          font-size:14px;
+        }
+      }
+
+      .map {
+        margin: 0;
+        font-size: 0px;
+
+        iframe {
+          width: 100%;
+          height: 500px;
+        }
+      }
+
+
+    }
+
+    .shade {
+
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+
+    }
+
+
+  }
+
+  @each $event,
+  $color,
+  $op-color in $events {
+    .cal-days {
+      .day {
+        .#{$event} {
+          background-color: $color;
+        }
+      }
+    }
+
+    .event {
+      &.#{$event} {
+        .shade {
+          background-color: rgba(0, 0, 0, 0.897);
+        }
+
+        .box {
+          h2 {
+            background-color: $color;
+
+            &:before,
+            &:after {
+              background-color: $op-color;
+             
+            }
+          }
+
+          .inside-box {
+            .svg-inline--fa {
+              color: $color;
+            }
+
+          }
+        }
+      }
+    }
+  }
+}

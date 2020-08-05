@@ -1,67 +1,57 @@
 <template>
-  <div class="calendar">
+  <section class="section section--calendar calendar" v-if="date">
     <events-list
       :activeYear="activeYear"
       :currentMonth="currentMonth"
       :currentDay="currentDay"
       :currentYear="currentYear"
       :actEvents="actEvents"
-      :months="months"
+      :edge="edge"
       @event="showEvent"
       @changeYear="onChange"
       v-if="component == 'list'"
     ></events-list>
-    <event
-      @close="closeEvent"
-      :event="closestEvent"
-      :months="months"
-      v-if="component == 'event'"
-    ></event>
-  </div>
+    <event @close="closeEvent" :event="closestEvent"  v-if="component == 'event'"></event>
+    
+  </section>
 </template>
 
 <script>
 import EventsList from "@/components/calendar/EventsList";
 import Event from "@/components/calendar/Event";
-import firebase from "firebase";
+import firebase, { storage } from "firebase/app";
 
 export default {
   name: "Calendar",
-  props: ["windowWidth", "component"],
   data() {
     return {
-      date: new Date(),
-      months: [
-        "Styczeń",
-        "Luty",
-        "Marzec",
-        "Kwiecień",
-        "Maj",
-        "Czerwiec",
-        "Lipiec",
-        "Sierpień",
-        "Wrzesień",
-        "Październik",
-        "Listopad",
-        "Grudzień"
-      ],
-
-      activeYear: 2,
+      date: null,
+      activeYear: null,
       activeMonth: null,
       firstRender: false,
       eventShow: false,
       activeEvent: {},
-      events: {},
-      actEvents: {},
-      closestEvent: {},
-      new: null
+      actEvents: [],
+      new: null,
+      edge: null
     };
   },
   computed: {
+    closestEvent() {
+      return this.events.find(el => {
+        const date = new Date(el.date);
+        return date >= this.date;
+      });
+    },
+    component() {
+      return this.$route.meta.calendar;
+    },
     currentDay() {
       return this.date.getDate();
     },
-
+    events() {
+      return this.$store.state.calendar.events;
+    },
     currentYear() {
       return this.date.getFullYear();
     },
@@ -74,31 +64,46 @@ export default {
   },
   methods: {
     onChange(a) {
-      this.activeYear += a;
+      const yearContains = this.events.find(item => {
+        return item.year == this.activeYear + a;
+      });
+      const nextYearContains = this.events.find(item => {
+        return item.year == this.activeYear + 2 * a;
+      });
+      !nextYearContains ? (this.edge = a) : (this.edge = 0);
+      if (yearContains || this.activeYear + a == this.currentYear) {
+        this.activeYear += a;
+      }
+    },
+    getDate() {
+      this.date = this.$store.state.currentDate;
     },
     getEvents() {
       return new Promise((resolve, reject) => {
-        const database = firebase.database(),
-          events = database.ref(`events/${this.activeYear}`);
-        events.on(
-          "value",
-          data => {
-            resolve();
-            this.events[this.activeYear] = data.val();
-            if (data.val() != null) {
-              const ind = Object.keys(this.events[this.activeYear])[0];
-              this.closestEvent = this.events[this.activeYear][ind];
-              localStorage.setItem("calendar", JSON.stringify(this.events));
-            }
-          },
-          error => {
-            reject(console.log("not success"));
-          }
-        );
+        if (this.$store.state.calendar.events.length == 0) {
+          const database = firebase.firestore(),
+            events = database.collection("events").orderBy("date");
+          let eventsArray = [];
+          events
+            .get()
+            .then(snapshot => {
+              snapshot.forEach(doc => {
+                eventsArray.push(doc.data());
+              });
+            })
+            .then(() => this.$store.commit("addEvents", eventsArray))
+            .then(() => {
+              resolve("Success");
+            });
+        } else {
+          return resolve("Success");
+        }
       });
     },
     changeActEvents() {
-      this.actEvents = this.events[this.activeYear];
+      this.actEvents = this.events.filter(
+        ({ year }) => year == this.activeYear
+      );
     },
     closeEvent(value) {
       this.eventShow = value;
@@ -116,16 +121,18 @@ export default {
   ready() {
     window.addEventListener("resize", this.resize);
   },
-  mounted() {
-    this.activeYear = this.currentYear;
-    this.activeMonth = this.currentMonth;
+  created() {
+    this.getEvents().then(() => this.getDate());
+
+    //Get date from server if is not already in localStorage
   },
   watch: {
     activeYear(newValue) {
-      if (!localStorage.calendar || !this.events[newValue]) {
-        this.getEvents().then(() => this.changeActEvents());
-      }
       this.changeActEvents();
+    },
+    date() {
+      this.activeYear = this.currentYear;
+      this.activeMonth = this.currentMonth;
     }
   },
   components: {

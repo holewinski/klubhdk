@@ -1,0 +1,74 @@
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all 0.4s ease-in-out;
+}
+
+.slide-fade-enter {
+  opacity:0;
+}
+
+.slide-fade-leave-to {
+  opacity:0;
+}
+
+.list-enter-active, .list-leave-active {
+  transition: all 1s;
+  opacity:1;
+}
+.list-enter, .list-leave-to  {
+  opacity: 0;
+  
+}
+
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: all 0.4s linear;
+  position:relative;
+}
+
+.slide-left-enter {
+  transform:translateX(100%);
+  opacity:0;
+}
+
+.slide-left-leave-to {
+  transform:translateX(-100%);
+  opacity:0;
+}
+
+.rotate-enter-active,
+.rotate-leave-active {
+  transition: all 0.4s linear;
+  .day {
+    transition: all 0.4s linear;
+  position:relative;
+  }
+  
+}
+
+.rotate-enter {
+  .day {
+  transform: rotateX(90deg);
+  }
+}
+
+.rotate-leave-to {
+  .day {
+  transform: rotateX(-90deg);
+  }
+}
+@keyframes scale{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.2)}
+}
+@keyframes event{
+  0%{background:$red;}
+  25%{background:$glow-red; }
+  75%{background:$faint-red;}
+  100%{background:$red}
+}
+@keyframes rotate{
+  0%{transform: rotate(0deg) ;}
+  50%{transform: rotate(360deg); color:$red;}
+  0%{transform: rotate(0deg) ;}
+}

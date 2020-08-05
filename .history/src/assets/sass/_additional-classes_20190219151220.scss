@@ -1,0 +1,16 @@
+.text-red{
+    color:$red;
+}
+.text-blue{
+    color:$blue;
+}
+.before-after{
+    content:'';
+    display:block;
+}
+.hide{
+    .panel{
+        opacity:0;
+    }
+    
+}

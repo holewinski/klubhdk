@@ -5,13 +5,17 @@ $op-red:rgba(122, 0, 10, 0.9);
 $op-blue:rgba(0, 85, 170, 0.9);
 $op-orange:rgba(180, 114, 0, 0.9);
 $faint-red:#b42834;
-$glow-red:#e9001349;
+$dark-red:#83000b;
 $light-grey:#dfdfdf;
-$almost-white:#f4f4f4;
+$almost-white:#f7f7f7;
+$almost-white-2:#f4f4f4;
 $dark-grey:#818181;
 $faint-black:#3c3c3c;
+$black:#1b1b1b;
 $light-faint-black:#555555;
+$navigation-width: 80px;
 // Calendar variables
 $events: ((donacja #c2000f rgb(122, 0, 10)),
   (impreza #0081ff rgb(0, 85, 170)),
-  (spotkanie #e79200 rgb(180, 114, 0)));
+  (spotkanie #e79200 rgb(180, 114, 0)),
+  (brak #555555 rgb(63, 63, 63)));

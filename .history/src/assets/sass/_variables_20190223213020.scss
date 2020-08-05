@@ -1,0 +1,18 @@
+$red:#c2000f;
+$blue:#0081ff;  
+$orange:#e79200;
+$op-red:rgba(122, 0, 10, 0.9);
+$op-blue:rgba(0, 85, 170, 0.9);
+$op-orange:rgba(180, 114, 0, 0.9);
+$faint-red:#b42834;  
+$glow-red:#e9001349;  
+$light-grey:#eeeeee;
+$dark-grey:#818181;
+$faint-black:#3c3c3c;
+$light-faint-black:#555555;
+// Calendar variables
+$events: (
+    (donacja #c2000f rgb(122, 0, 10)), 
+    (impreza #0081ff rgb(0, 85, 170)), 
+    (spotkanie #e79200 rgb(180, 114, 0))
+    );

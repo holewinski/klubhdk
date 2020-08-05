@@ -1,0 +1,57 @@
+.calendar{
+     @media screen and (min-width: 992px) {}
+
+  @media screen and (max-width: 991px) {}
+
+  @media screen and (min-width: 501px) {
+    .events-list {
+      table {
+        min-width: 450px;
+      }
+
+      .date {
+        font-size: 2rem
+      }
+
+      .info {
+        font-size: 0.8rem;
+        padding-right: 20px;
+        padding-left: 20px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    .events-list {
+      margin: 0 !important;
+      width: 100%;
+
+      .date {
+        font-size: 1.6rem
+      }
+
+      .info {
+        font-size: 0.7rem;
+        padding-right: 0;
+        padding-left: 10px;
+
+
+      }
+
+      .eye {
+        font-size: 1.8rem;
+      }
+
+
+      table {
+        width: 100%;
+
+        tr {
+          td {
+            padding: 8px;
+          }
+        }
+      }
+    }
+  }
+}
